@@ -19,7 +19,10 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-
+          
+      - name: Remove module exclusions from build.spec
+        run: (Get-Content build.spec) -replace '^excludes = \[.*\]', 'excludes = []' | Set-Content build.spec
+        
       - name: Build executables
         run: |
           python -OO -m PyInstaller pmca-gui.spec
